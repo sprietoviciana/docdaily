@@ -1,0 +1,20 @@
+{
+  "name": "docdaily-web",
+  "version": "1.0.0",
+  "description": "Frontend for the DOCDAILY APP",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sprietoviciana/docdaily.git"
+  },
+  "keywords": [],
+  "author": "Silvia Prieto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sprietoviciana/docdaily/issues"
+  },
+  "homepage": "https://github.com/sprietoviciana/docdaily"
+}
