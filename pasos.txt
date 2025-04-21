@@ -1,0 +1,31 @@
+Instalar routes
+
+
+LOGIN 
+ - rellenar datos y darle al boton enter
+   - si existe, entra a la página principal.
+   - no existe, sale mensaje de datos incorrectos.
+
+HEADER
+- el nombre "Docdaily" será un boton de reset para actualizar las agendas.
+- Usuario: al pinchar, saldrá una pestaña con "Desconectar".
+
+CALENDAR
+- de primeras, las flechas serán botones que irá añadiendo o restando dias.
+
+* más adelante:
+- al pinchar en la fecha saldrá un pequeño modal con el calendario del mes actual.
+- al pinchar en un dia, saldrá la agenda de ese dia exacto.
+
+CITAS
+- se podrá añadir citas desde la columna de cada doctor.
+
+* más adelante:
+- hacer un apartado desplegable en la parte izquierda de la pagina para poder
+añadir citas con filtros (select) de doctores, tratamientos...
+Ej: si una doctora no hace infiltraciones de hialurónico, no sale en su desplegable.
+
+AGENDAS
+- información por petición a una API. 
+
+

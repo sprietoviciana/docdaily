@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.2%;
+  width: 100vw;
+  height: 13vh;
+}
+.header h4 {
+  font-size: 25px;
+  color: rgb(66, 158, 185);
+}
+.header a {
+  color: gray;
+  font-size: 20px;
+}
