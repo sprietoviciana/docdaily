@@ -20,11 +20,16 @@ Web application for clinical use designed to manage healthcare professionals' sc
   - Informative (new appointments): Yellow
   - Treatments: Light Blue
   - Treatment follow-ups: Green
+  - If 20 minutes pass after an appointment and the patient hasn’t arrived, the appointment should turn red.
+![Sin título-2024-12-09-1328](https://github.com/user-attachments/assets/c2e88e9c-d088-4c19-af5d-ef8c0bfbb2e2)
+
+
+    
 - To log out at the end of the day, click on "User" and a dropdown will appear with options to log out or switch users.
+
 
 ### Desired Requirements
 
 - In each medical history, a button to upload documents like consent forms, lab results, etc.
 - Ability to mark when a patient arrives to indicate they are ready to be seen.
-- If 20 minutes pass after an appointment and the patient hasn’t arrived, the appointment should turn red.
 - In the filters on the left, selecting a specialist should dynamically filter the treatment options to only those offered by that specialist.
