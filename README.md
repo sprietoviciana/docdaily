@@ -3,8 +3,8 @@
 ## Introduction
 
 Web application for clinical use designed to manage healthcare professionals' schedules. It is intended for internal use in medical centers to organize patient appointments and medical treatments.
+![DocDaily update](https://github.com/user-attachments/assets/308cbe57-cf78-4fea-9645-67c0c6a7856f)
 
-![DocDaily ingles](https://github.com/user-attachments/assets/3be1c05e-d6f5-446b-91d6-c3a12e5807b1)
 
 ### Mandatory Requirements
 
