@@ -1,0 +1,16 @@
+name: CI
+on: [pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - uses: actions/checkout@v4.2.2
+      - run: npm ci
+        working-directory: ./back
+      - run: npm run build
+        working-directory: ./back
+      - run: npm run check
+        working-directory: ./back
