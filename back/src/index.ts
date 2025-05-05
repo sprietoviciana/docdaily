@@ -1,8 +1,7 @@
 import express, { Express, Request, Response } from "express";
-import path from "path";
 import cors from "cors";
 import mysql from "mysql2/promise";
-import * as dotenv from 'dotenv';
+import * as dotenv from "dotenv";
 
 dotenv.config();
 
