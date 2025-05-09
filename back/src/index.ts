@@ -1,9 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
 import mysql from "mysql2/promise";
-import * as dotenv from "dotenv";
-
-dotenv.config();
 
 const server: Express = express();
 
@@ -13,15 +10,15 @@ server.use(cors());
 async function getDBConnection() {
   const connection = await mysql.createConnection({
     host: "localhost",
-    user: process.env.USER_DB,
-    password: process.env.PASSWORD,
+    user: process.env.USER_DB ?? "user",
+    password: process.env.PASSWORD ?? "12345678",
     database: "docdaily",
   });
   connection.connect();
   return connection;
 }
 
-const port = process.env.PORT;
+const port = process.env.PORT ?? "3000";
 
 server.listen(port, () => {
   console.log(`Server is running in http://localhost:${port}`);

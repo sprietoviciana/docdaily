@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.14.0"
@@ -17,7 +16,7 @@
     "typescript": "^5.8.3"
   },
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "nodemon dist/index.js",
     "build": "npx tsc",
     "format": "npx prettier . --write",
     "check": "npx prettier . --check",
