@@ -32,11 +32,9 @@ server.get("/doctors", async (req: Request, res: Response) => {
   const connection = await getDBConnection();
   const sqlQuery = "SELECT * FROM doctors";
   const [result] = await connection.query(sqlQuery);
-  console.log(result);
   connection.end();
 
   res.status(200).json({
-    status: "succes",
-    message: result,
+    doctors: result,
   });
 });
