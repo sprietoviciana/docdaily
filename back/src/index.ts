@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import cors from "cors";
-import mysql from "mysql2/promise";
+import mysql, { ResultSetHeader } from "mysql2/promise";
 
 const server: Express = express();
 
@@ -36,5 +36,25 @@ server.get("/doctors", async (req: Request, res: Response) => {
 
   res.status(200).json({
     doctors: result,
+  });
+});
+
+server.post("/doctors", async (req: Request, res: Response) => {
+  const connection = await getDBConnection();
+
+  const query = "INSERT INTO doctors (name, lastname) VALUES (?,?)";
+
+  const [queryResult] = await connection.query(query, [
+    req.body.name,
+    req.body.lastname,
+  ]);
+  connection.end();
+
+  const result = queryResult as ResultSetHeader;
+
+  res.status(201).json({
+    id: result.insertId,
+    name: req.body.name,
+    lastname: req.body.lastname,
   });
 });
