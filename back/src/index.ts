@@ -39,6 +39,24 @@ server.get("/doctors", async (req: Request, res: Response) => {
   });
 });
 
+server.post("/doctors", async (req: Request, res: Response) => {
+  const { name, lastname, email } = req.body;
+  const connection = await getDBConnection();
+
+  const query = "INSERT INTO doctors (name, lastname) VALUES (?,?)";
+
+  const [queryResult] = await connection.query(query, [name, lastname]);
+  connection.end();
+
+  const result = queryResult as ResultSetHeader;
+
+  res.status(201).json({
+    id: result.insertId,
+    name,
+    lastname,
+  });
+});
+
 server.get("/patients", async (req: Request, res: Response) => {
   const connection = await getDBConnection();
   const sqlQuery = "SELECT * FROM patients";
@@ -50,23 +68,21 @@ server.get("/patients", async (req: Request, res: Response) => {
   });
 });
 
-server.post("/doctors", async (req: Request, res: Response) => {
+server.post("/patients", async (req: Request, res: Response) => {
+  const { name, lastname, email } = req.body;
   const connection = await getDBConnection();
 
-  const query = "INSERT INTO doctors (name, lastname) VALUES (?,?)";
+  const query = "INSERT INTO patients (name, lastname) VALUES (?,?)";
 
-  const [queryResult] = await connection.query(query, [
-    req.body.name,
-    req.body.lastname,
-  ]);
+  const [queryResult] = await connection.query(query, [name, lastname]);
   connection.end();
 
   const result = queryResult as ResultSetHeader;
 
   res.status(201).json({
     id: result.insertId,
-    name: req.body.name,
-    lastname: req.body.lastname,
+    name,
+    lastname,
   });
 });
 
