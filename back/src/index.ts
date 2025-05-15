@@ -39,6 +39,17 @@ server.get("/doctors", async (req: Request, res: Response) => {
   });
 });
 
+server.get("/patients", async (req: Request, res: Response) => {
+  const connection = await getDBConnection();
+  const sqlQuery = "SELECT * FROM patients";
+  const [result] = await connection.query(sqlQuery);
+  connection.end();
+
+  res.status(200).json({
+    patients: result,
+  });
+});
+
 server.post("/doctors", async (req: Request, res: Response) => {
   const connection = await getDBConnection();
 
