@@ -58,3 +58,18 @@ server.post("/doctors", async (req: Request, res: Response) => {
     lastname: req.body.lastname,
   });
 });
+
+server.put("/patients/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { name, lastname } = req.body;
+  const connection = await getDBConnection();
+  const query = "UPDATE patients SET name = ?, lastname = ? WHERE id = ?";
+  await connection.query(query, [name, lastname, id]);
+  connection.end();
+
+  res.status(200).json({
+    id,
+    name,
+    lastname,
+  });
+});
