@@ -39,7 +39,7 @@ server.get("/doctors", async (req: Request, res: Response) => {
   });
 });
 
-server.post("/doctors", async (req: Request, res: Response) => {
+server.post("/doctor", async (req: Request, res: Response) => {
   const { name, lastname, email } = req.body;
   const connection = await getDBConnection();
 
@@ -56,6 +56,18 @@ server.post("/doctors", async (req: Request, res: Response) => {
     lastname,
   });
 });
+
+server.delete("/doctor/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const connection = await getDBConnection();
+  const query = "DELETE from doctors WHERE id = ?";
+  const [result] = await connection.query(query, [id]);
+
+  res.status(200).json({
+    result: result,
+  });
+});
+
 
 server.get("/patients", async (req: Request, res: Response) => {
   const connection = await getDBConnection();
