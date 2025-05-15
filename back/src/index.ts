@@ -39,22 +39,101 @@ server.get("/doctors", async (req: Request, res: Response) => {
   });
 });
 
-server.post("/doctors", async (req: Request, res: Response) => {
+server.post("/doctor", async (req: Request, res: Response) => {
+  const { name, lastname, email } = req.body;
   const connection = await getDBConnection();
 
   const query = "INSERT INTO doctors (name, lastname) VALUES (?,?)";
 
-  const [queryResult] = await connection.query(query, [
-    req.body.name,
-    req.body.lastname,
-  ]);
+  const [queryResult] = await connection.query(query, [name, lastname]);
   connection.end();
 
   const result = queryResult as ResultSetHeader;
 
   res.status(201).json({
     id: result.insertId,
-    name: req.body.name,
-    lastname: req.body.lastname,
+    name,
+    lastname,
+  });
+});
+
+server.put("/doctor/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { name, lastname } = req.body;
+  const connection = await getDBConnection();
+  const query = "UPDATE doctors SET name = ?, lastname = ? WHERE id = ?";
+  await connection.query(query, [name, lastname, id]);
+  connection.end();
+
+  res.status(200).json({
+    id,
+    name,
+    lastname,
+  });
+});
+
+server.delete("/doctor/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const connection = await getDBConnection();
+  const query = "DELETE from doctors WHERE id = ?";
+  const [result] = await connection.query(query, [id]);
+
+  res.status(200).json({
+    result: result,
+  });
+});
+
+server.get("/patients", async (req: Request, res: Response) => {
+  const connection = await getDBConnection();
+  const sqlQuery = "SELECT * FROM patients";
+  const [result] = await connection.query(sqlQuery);
+  connection.end();
+
+  res.status(200).json({
+    patients: result,
+  });
+});
+
+server.post("/patient", async (req: Request, res: Response) => {
+  const { name, lastname, email } = req.body;
+  const connection = await getDBConnection();
+
+  const query = "INSERT INTO patients (name, lastname) VALUES (?,?)";
+
+  const [queryResult] = await connection.query(query, [name, lastname]);
+  connection.end();
+
+  const result = queryResult as ResultSetHeader;
+
+  res.status(201).json({
+    id: result.insertId,
+    name,
+    lastname,
+  });
+});
+
+server.put("/patient/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const { name, lastname } = req.body;
+  const connection = await getDBConnection();
+  const query = "UPDATE patients SET name = ?, lastname = ? WHERE id = ?";
+  await connection.query(query, [name, lastname, id]);
+  connection.end();
+
+  res.status(200).json({
+    id,
+    name,
+    lastname,
+  });
+});
+
+server.delete("/patient/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const connection = await getDBConnection();
+  const query = "DELETE from patients WHERE id = ?";
+  const [result] = await connection.query(query, [id]);
+
+  res.status(200).json({
+    result: result,
   });
 });
