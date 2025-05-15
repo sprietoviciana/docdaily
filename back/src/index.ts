@@ -100,3 +100,14 @@ server.put("/patients/:id", async (req: Request, res: Response) => {
     lastname,
   });
 });
+
+server.delete("/patients/:id", async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const connection = await getDBConnection();
+  const query = "DELETE from patients WHERE id = ?";
+  const [result] = await connection.query(query, [id]);
+
+  res.status(200).json({
+    result: result,
+  });
+});
