@@ -39,7 +39,7 @@ server.get("/doctors", async (req: Request, res: Response) => {
   });
 });
 
-server.post("/doctor", async (req: Request, res: Response) => {
+server.post("/doctors", async (req: Request, res: Response) => {
   const { name, lastname, email } = req.body;
   const connection = await getDBConnection();
 
@@ -57,7 +57,7 @@ server.post("/doctor", async (req: Request, res: Response) => {
   });
 });
 
-server.put("/doctor/:id", async (req: Request, res: Response) => {
+server.put("/doctors/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const { name, lastname } = req.body;
   const connection = await getDBConnection();
@@ -72,7 +72,7 @@ server.put("/doctor/:id", async (req: Request, res: Response) => {
   });
 });
 
-server.delete("/doctor/:id", async (req: Request, res: Response) => {
+server.delete("/doctors/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const connection = await getDBConnection();
   const query = "DELETE from doctors WHERE id = ?";
@@ -94,7 +94,7 @@ server.get("/patients", async (req: Request, res: Response) => {
   });
 });
 
-server.post("/patient", async (req: Request, res: Response) => {
+server.post("/patients", async (req: Request, res: Response) => {
   const { name, lastname, email } = req.body;
   const connection = await getDBConnection();
 
@@ -112,7 +112,7 @@ server.post("/patient", async (req: Request, res: Response) => {
   });
 });
 
-server.put("/patient/:id", async (req: Request, res: Response) => {
+server.put("/patients/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const { name, lastname } = req.body;
   const connection = await getDBConnection();
@@ -127,7 +127,7 @@ server.put("/patient/:id", async (req: Request, res: Response) => {
   });
 });
 
-server.delete("/patient/:id", async (req: Request, res: Response) => {
+server.delete("/patients/:id", async (req: Request, res: Response) => {
   const id = req.params.id;
   const connection = await getDBConnection();
   const query = "DELETE from patients WHERE id = ?";
