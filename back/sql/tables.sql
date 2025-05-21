@@ -1,24 +1,20 @@
-CREATE DATABASE docdaily;
-
-USE docdaily;
-
 CREATE TABLE
-    patients (
-        id INT auto_increment primary key,
-        name VARCHAR(50) not null,
-        lastname VARCHAR(50) not null,
-    );
-
-CREATE TABLE
-    doctors (
-        id INT auto_increment primary key,
+    IF NOT EXISTS doctors (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(50) not null,
         lastname VARCHAR(50) not null
     );
 
 CREATE TABLE
-    agenda (
-        id INT auto_increment primary key,
+    IF NOT EXISTS patients (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name VARCHAR(50) not null,
+        lastname VARCHAR(50) not null
+    );
+
+CREATE TABLE
+    IF NOT EXISTS agenda (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         date DATE,
         start_time TIME,
         end_time TIME,
