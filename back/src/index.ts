@@ -24,19 +24,36 @@ server.get("/", (req, res) => {
 });
 
 server.get("/doctors", (_, res) => {
-  db.all("SELECT * FROM doctors", (_, result) => {
-    res.status(200).json({
-      doctors: result,
-    });
+  db.all("SELECT * FROM doctors", (error, result) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    } else {
+      res.status(200).json({
+        doctors: result,
+      });
+    }
   });
 });
 
 server.get("/doctors/:id", (req, res) => {
   const id = req.params.id;
-  db.all("SELECT * FROM doctors WHERE id = ?", [id], function (_, result) {
-    res.status(200).json({
-      doctors: result,
-    });
+  db.get("SELECT * FROM doctors WHERE id = ?", [id], function (error, result) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    }
+    if (!result) {
+      return res.status(404).json({
+        error: `No doctor found with ID ${id}`,
+      });
+    } else {
+      return res.status(200).json(result);
+    }
   });
 });
 
@@ -45,12 +62,19 @@ server.post("/doctors", (req, res) => {
   db.run(
     "INSERT INTO doctors (name, lastname) VALUES (?,?)",
     [name, lastname],
-    function () {
-      res.status(201).json({
-        id: this.lastID,
-        name,
-        lastname,
-      });
+    function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          error: "Internal server error. Please try again later.",
+        });
+      } else {
+        res.status(201).json({
+          id: this.lastID,
+          name,
+          lastname,
+        });
+      }
     },
   );
 });
@@ -61,39 +85,70 @@ server.put("/doctors/:id", (req, res) => {
   db.run(
     "UPDATE doctors SET name = ?, lastname = ? WHERE id = ?",
     [name, lastname, id],
-    function () {
-      res.status(200).json({
-        id,
-        name,
-        lastname,
-      });
+    function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          error: "Internal server error. Please try again later.",
+        });
+      } else {
+        res.status(200).json({
+          id,
+          name,
+          lastname,
+        });
+      }
     },
   );
 });
 
 server.delete("/doctors/:id", (req, res) => {
   const id = req.params.id;
-  db.run("DELETE from doctors WHERE id = ?", [id], function () {
-    res.status(200).json({
-      result: id,
-    });
+  db.run("DELETE from doctors WHERE id = ?", [id], function (error) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    } else {
+      res.status(200).json({
+        message: `Delete doctor ${id}`,
+      });
+    }
   });
 });
 
 server.get("/patients", (_, res) => {
-  db.all("SELECT * FROM patients", (_, result) => {
-    res.status(200).json({
-      patients: result,
-    });
+  db.all("SELECT * FROM patients", (error, result) => {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    } else {
+      res.status(200).json({
+        patients: result,
+      });
+    }
   });
 });
 
 server.get("/patients/:id", (req, res) => {
   const id = req.params.id;
-  db.all("SELECT * FROM patients WHERE id = ?", [id], function (_, result) {
-    res.status(200).json({
-      patients: result,
-    });
+  db.get("SELECT * FROM patients WHERE id = ?", [id], function (error, result) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    }
+    if (!result) {
+      return res.status(404).json({
+        error: `No patient found with ID ${id}`,
+      });
+    } else {
+      res.status(200).json(result);
+    }
   });
 });
 
@@ -102,12 +157,19 @@ server.post("/patients", (req, res) => {
   db.run(
     "INSERT INTO patients (name, lastname) VALUES (?,?)",
     [name, lastname],
-    function () {
-      res.status(201).json({
-        id: this.lastID,
-        name,
-        lastname,
-      });
+    function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          error: "Internal server error. Please try again later.",
+        });
+      } else {
+        res.status(201).json({
+          id: this.lastID,
+          name,
+          lastname,
+        });
+      }
     },
   );
 });
@@ -118,21 +180,35 @@ server.put("/patients/:id", (req, res) => {
   db.run(
     "UPDATE patients SET name = ?, lastname = ? WHERE id = ?",
     [name, lastname, id],
-    function () {
-      res.status(200).json({
-        id,
-        name,
-        lastname,
-      });
+    function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          error: "Internal server error. Please try again later.",
+        });
+      } else {
+        res.status(200).json({
+          id,
+          name,
+          lastname,
+        });
+      }
     },
   );
 });
 
 server.delete("/patients/:id", (req, res) => {
   const id = req.params.id;
-  db.run("DELETE from patients WHERE id = ?", [id], function () {
-    res.status(200).json({
-      result: id,
-    });
+  db.run("DELETE from patients WHERE id = ?", [id], function (error) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    } else {
+      res.status(200).json({
+        message: `Delete patient ${id}`,
+      });
+    }
   });
 });
