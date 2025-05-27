@@ -111,9 +111,7 @@ server.delete("/doctors/:id", (req, res) => {
         error: "Internal server error. Please try again later.",
       });
     } else {
-      res.status(200).json({
-        message: `Delete doctor ${id}`,
-      });
+      res.status(204).json();
     }
   });
 });
@@ -206,9 +204,7 @@ server.delete("/patients/:id", (req, res) => {
         error: "Internal server error. Please try again later.",
       });
     } else {
-      res.status(200).json({
-        message: `Delete patient ${id}`,
-      });
+      res.status(204).json();
     }
   });
 });
