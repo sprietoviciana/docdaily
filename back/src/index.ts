@@ -223,7 +223,9 @@ server.get("/agenda", (req, res) => {
         error: "Internal server error. Please try again later.",
       });
     } else {
-      res.status(200).json(result);
+      res.status(200).json({
+        agenda: result,
+      });
     }
   });
 });
