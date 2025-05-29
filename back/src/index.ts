@@ -208,3 +208,24 @@ server.delete("/patients/:id", (req, res) => {
     }
   });
 });
+
+server.get("/agenda", (req, res) => {
+  const date = req.query.date;
+  if (!date) {
+    res.status(400).json({
+      error: "Missing 'date' query parameter",
+    });
+  }
+  db.all("SELECT * FROM agenda WHERE date = ?", [date], (error, result) => {
+    if (error) {
+      console.error(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    } else {
+      res.status(200).json({
+        agenda: result,
+      });
+    }
+  });
+});
