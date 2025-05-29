@@ -216,13 +216,7 @@ server.get("/agenda", (req, res) => {
       error: "Missing 'date' query parameter",
     });
   }
-  const query = date
-    ? "SELECT * FROM agenda WHERE date = ?"
-    : "SELECT * FROM agenda";
-
-  const params = date ? [date] : [];
-
-  db.all(query, params, (error, result) => {
+  db.all("SELECT * FROM agenda WHERE date = ?", [date], (error, result) => {
     if (error) {
       console.error(error);
       return res.status(500).json({
