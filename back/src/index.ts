@@ -211,12 +211,18 @@ server.delete("/patients/:id", (req, res) => {
 
 server.get("/agenda", (req, res) => {
   const date = req.query.date;
+  const doctorId = req.query.doctorId;
+
   if (!date) {
     res.status(400).json({
       error: "Missing 'date' query parameter",
     });
   }
-  db.all("SELECT * FROM agenda WHERE date = ?", [date], (error, result) => {
+  const query = doctorId
+    ? "SELECT * FROM agenda WHERE date = ? AND doctor_id = ?"
+    : "SELECT * FROM agenda WHERE date = ?";
+
+  db.all(query, [date, doctorId], (error, result) => {
     if (error) {
       console.error(error);
       return res.status(500).json({
