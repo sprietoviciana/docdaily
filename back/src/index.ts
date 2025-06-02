@@ -235,3 +235,72 @@ server.get("/agenda", (req, res) => {
     }
   });
 });
+
+server.post("/agenda", (req, res) => {
+  const { date, start_time, end_time, treatment, doctor_id, patient_id } =
+    req.body;
+  db.run(
+    "INSERT INTO agenda (date, start_time, end_time, treatment, doctor_id, patient_id) VALUES (?,?,?,?,?,?)",
+    [date, start_time, end_time, treatment, doctor_id, patient_id],
+    function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          error: "Internal server error. Please try again later.",
+        });
+      } else {
+        res.status(201).json({
+          id: this.lastID,
+          date,
+          start_time,
+          end_time,
+          treatment,
+          doctor_id,
+          patient_id,
+        });
+      }
+    },
+  );
+});
+
+server.put("/agenda/:id", (req, res) => {
+  const id = req.params.id;
+  const { date, start_time, end_time, treatment, doctor_id, patient_id } =
+    req.body;
+  db.run(
+    "UPDATE agenda SET date =?, start_time = ?, end_time=?, treatment=?, doctor_id=?,patient_id=? WHERE id = ?",
+    [id, date, start_time, end_time, treatment, doctor_id, patient_id],
+    function (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({
+          error: "Internal server error. Please try again later.",
+        });
+      } else {
+        res.status(200).json({
+          id,
+          date,
+          start_time,
+          end_time,
+          treatment,
+          doctor_id,
+          patient_id,
+        });
+      }
+    },
+  );
+});
+
+server.delete("/agenda/:id", (req, res) => {
+  const id = req.params.id;
+  db.run("DELETE from agenda WHERE id =?", [id], function (error) {
+    if (error) {
+      console.log(error);
+      return res.status(500).json({
+        error: "Internal server error. Please try again later.",
+      });
+    } else {
+      res.status(204).json();
+    }
+  });
+});

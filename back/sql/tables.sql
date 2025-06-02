@@ -22,5 +22,7 @@ CREATE TABLE
         doctor_id INT,
         patient_id INT,
         FOREIGN KEY (doctor_id) REFERENCES doctors (id),
-        FOREIGN KEY (patient_id) REFERENCES patients (id)
+        FOREIGN KEY (patient_id) REFERENCES patients (id),
+        UNIQUE (date, start_time, end_time, doctor_id),
+        UNIQUE (date, start_time, end_time, patient_id)
     );
