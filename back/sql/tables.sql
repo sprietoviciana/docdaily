@@ -13,7 +13,7 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    IF NOT EXISTS agenda (
+    IF NOT EXISTS appointments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         date DATE,
         start_time TIME,
