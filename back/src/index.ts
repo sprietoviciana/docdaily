@@ -330,6 +330,32 @@ server.put("/appointments/:id", (req, res) => {
   const id = req.params.id;
   const { date, start_time, end_time, treatment, doctor_id, patient_id } =
     req.body;
+  if (!date) {
+    res.status(400).json({ error: "`date` field is mandatory" });
+    return;
+  }
+  if (!start_time) {
+    res.status(400).json({ error: "`start_time` field is mandatory" });
+    return;
+  }
+  if (!end_time) {
+    res.status(400).json({ error: "`end_time` field is mandatory" });
+    return;
+  }
+  if (!treatment) {
+    res.status(400).json({ error: "`treatment` field is mandatory" });
+    return;
+  }
+
+  if (!doctor_id) {
+    res.status(400).json({ error: "`doctor_id` field is mandatory" });
+    return;
+  }
+  if (!patient_id) {
+    res.status(400).json({ error: "`patient_id` field is mandatory" });
+    return;
+  }
+
   db.get("SELECT * FROM doctors WHERE id = ?", [doctor_id], (error, doctor) => {
     if (error) {
       res
