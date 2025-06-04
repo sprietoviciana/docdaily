@@ -209,7 +209,7 @@ server.delete("/patients/:id", (req, res) => {
   });
 });
 
-server.get("/agenda", (req, res) => {
+server.get("/appointments", (req, res) => {
   const date = req.query.date;
   const doctorId = req.query.doctorId;
 
@@ -219,8 +219,8 @@ server.get("/agenda", (req, res) => {
     });
   }
   const query = doctorId
-    ? "SELECT * FROM agenda WHERE date = ? AND doctor_id = ?"
-    : "SELECT * FROM agenda WHERE date = ?";
+    ? "SELECT * FROM appointments WHERE date = ? AND doctor_id = ?"
+    : "SELECT * FROM appointments WHERE date = ?";
 
   db.all(query, [date, doctorId], (error, result) => {
     if (error) {
@@ -230,70 +230,128 @@ server.get("/agenda", (req, res) => {
       });
     } else {
       res.status(200).json({
-        agenda: result,
+        appointments: result,
       });
     }
   });
 });
 
-server.post("/agenda", (req, res) => {
+server.post("/appointments", (req, res) => {
   const { date, start_time, end_time, treatment, doctor_id, patient_id } =
     req.body;
-  db.run(
-    "INSERT INTO agenda (date, start_time, end_time, treatment, doctor_id, patient_id) VALUES (?,?,?,?,?,?)",
-    [date, start_time, end_time, treatment, doctor_id, patient_id],
-    function (error) {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          error: "Internal server error. Please try again later.",
-        });
-      } else {
-        res.status(201).json({
-          id: this.lastID,
-          date,
-          start_time,
-          end_time,
-          treatment,
-          doctor_id,
-          patient_id,
-        });
-      }
-    },
-  );
+  db.get("SELECT * FROM doctors WHERE id = ?", [doctor_id], (err, doctor) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ error: "Internal server error. Please try again later" });
+    }
+    if (!doctor) {
+      return res.status(400).json({
+        error: `Doctor with ID ${doctor_id} does not exist.`,
+      });
+    }
+    db.get(
+      "SELECT * FROM patients WHERE id = ?",
+      [patient_id],
+      (err, patient) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ error: "Internal server error. Please try again later" });
+        }
+        if (!patient) {
+          return res.status(400).json({
+            error: `Patient with ID ${patient_id} does not exist.`,
+          });
+        } else {
+          db.run(
+            "INSERT INTO appointments (date, start_time, end_time, treatment, doctor_id, patient_id) VALUES (?,?,?,?,?,?)",
+            [date, start_time, end_time, treatment, doctor_id, patient_id],
+            function (error) {
+              if (error) {
+                console.log(error);
+                return res.status(500).json({
+                  error: "Internal server error. Please try again later.",
+                });
+              } else {
+                res.status(201).json({
+                  id: this.lastID,
+                  date,
+                  start_time,
+                  end_time,
+                  treatment,
+                  doctor_id,
+                  patient_id,
+                });
+              }
+            },
+          );
+        }
+      },
+    );
+  });
 });
 
-server.put("/agenda/:id", (req, res) => {
+server.put("/appointments/:id", (req, res) => {
   const id = req.params.id;
   const { date, start_time, end_time, treatment, doctor_id, patient_id } =
     req.body;
-  db.run(
-    "UPDATE agenda SET date =?, start_time = ?, end_time=?, treatment=?, doctor_id=?,patient_id=? WHERE id = ?",
-    [id, date, start_time, end_time, treatment, doctor_id, patient_id],
-    function (error) {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          error: "Internal server error. Please try again later.",
-        });
-      } else {
-        res.status(200).json({
-          id,
-          date,
-          start_time,
-          end_time,
-          treatment,
-          doctor_id,
-          patient_id,
-        });
-      }
-    },
-  );
+  db.get("SELECT * FROM doctors WHERE id = ?", [doctor_id], (err, doctor) => {
+    if (err) {
+      return res
+        .status(500)
+        .json({ error: "Internal server error. Please try again later" });
+    }
+    if (!doctor) {
+      return res.status(400).json({
+        error: `Doctor with ID ${doctor_id} does not exist.`,
+      });
+    }
+    db.get(
+      "SELECT * FROM patients WHERE id = ?",
+      [patient_id],
+      (err, patient) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ error: "Internal server error. Please try again later" });
+        }
+        if (!patient) {
+          return res.status(400).json({
+            error: `Patient with ID ${patient_id} does not exist.`,
+          });
+        } else {
+          db.run(
+            "UPDATE appointments SET date =?, start_time = ?, end_time=?, treatment=?, doctor_id=?,patient_id=? WHERE id = ?",
+            [id, date, start_time, end_time, treatment, doctor_id, patient_id],
+            function (error) {
+              if (error) {
+                console.log(error);
+                return res.status(500).json({
+                  error: "Internal server error. Please try again later.",
+                });
+              } else {
+                res.status(200).json({
+                  id,
+                  date,
+                  start_time,
+                  end_time,
+                  treatment,
+                  doctor_id,
+                  patient_id,
+                });
+              }
+            },
+          );
+        }
+      },
+    );
+  });
 });
 
-server.delete("/agenda/:id", (req, res) => {
+server.delete("/appointments/:id", (req, res) => {
   const id = req.params.id;
-  db.run("DELETE from agenda WHERE id =?", [id], function (error) {
+  db.run("DELETE from appointments WHERE id =?", [id], function (error) {
     if (error) {
       console.log(error);
       return res.status(500).json({

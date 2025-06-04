@@ -32,7 +32,7 @@ VALUES
     ('Camila', 'Núñez');
 
 INSERT INTO
-    agenda (
+    appointments (
         date,
         start_time,
         end_time,
