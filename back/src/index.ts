@@ -19,6 +19,9 @@ server.listen(port, () => {
   console.log(`Server is running in http://localhost:${port}`);
 });
 
+const isDate = (date: string) =>
+  /^\d{4}-\d{2}-\d{2}$/.test(date) && !isNaN(new Date(date).getTime());
+
 server.get("/", (req, res) => {
   res.send("Hello World From the Typescript Server!");
 });
@@ -267,6 +270,13 @@ server.post("/appointments", (req, res) => {
   }
   if (!patient_id) {
     res.status(400).json({ error: "`patient_id` field is mandatory" });
+    return;
+  }
+
+  if (!isDate(date)) {
+    res
+      .status(400)
+      .json({ error: "the date has to be in the format YYYY-MM-DD" });
     return;
   }
 
