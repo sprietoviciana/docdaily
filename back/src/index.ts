@@ -315,8 +315,8 @@ server.post("/appointments", (req, res) => {
           function (error) {
             if (error) {
               console.log(error);
-              res.status(500).json({
-                error: "Internal server error. Please try again later.",
+              res.status(400).json({
+                error: "There cannot be two appointments at the same time on the same day.",
               });
               return;
             }
