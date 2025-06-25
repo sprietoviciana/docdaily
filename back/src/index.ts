@@ -316,7 +316,8 @@ server.post("/appointments", (req, res) => {
             if (error) {
               console.log(error);
               res.status(400).json({
-                error: "There cannot be two appointments at the same time on the same day.",
+                error:
+                  "There cannot be two appointments at the same time on the same day.",
               });
               return;
             }
