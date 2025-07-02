@@ -315,6 +315,29 @@ server.post("/appointments", (req, res) => {
           function (error) {
             if (error) {
               console.log(error);
+
+              if (
+                error.message ===
+                "SQLITE_CONSTRAINT: UNIQUE constraint failed: appointments.date, appointments.start_time, appointments.end_time, appointments.patient_id"
+              ) {
+                res.status(400).json({
+                  error:
+                    "This patient already has an appointment at this time.",
+                });
+                return;
+              }
+
+              if (
+                error.message ===
+                "SQLITE_CONSTRAINT: UNIQUE constraint failed: appointments.date, appointments.start_time, appointments.end_time, appointments.doctor_id"
+              ) {
+                res.status(400).json({
+                  error:
+                    "There is already an appointment with this doctor at this time.",
+                });
+                return;
+              }
+
               res.status(500).json({
                 error: "Internal server error. Please try again later.",
               });
